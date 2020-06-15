@@ -3,6 +3,7 @@ package buchfuehrungDBA;
 public class StartGUI extends javax.swing.JFrame {
 
     public StartGUI() {
+        // this is a new line
         initComponents();
     }
 
