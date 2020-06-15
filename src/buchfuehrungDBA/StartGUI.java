@@ -7,6 +7,8 @@ public class StartGUI extends javax.swing.JFrame {
         // this is a feature branch
         //TEst ist Baby!
 	// this is another comment to test my feature branch
+    // this is another comment to test my feature branch
+        // geht das auch?
         initComponents();
         //TEEEST
     }
