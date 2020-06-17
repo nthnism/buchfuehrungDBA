@@ -1,7 +1,7 @@
 package buchfuehrungDBA;
 
 
-abstract class Konto {
+abstract class Konto implements java.lang.Comparable<Konto>{
     protected int kontoNr;
     protected String kontoBezeichnung;
     protected double summeSollbuchungen;
@@ -28,12 +28,22 @@ abstract class Konto {
         return summeHabenbuchungen;
     }
 
-    public void bucheSoll(double buchungsbetrag)
+    public int compareTo(final Konto pKonto){        
+        int result = this.kontoNr - pKonto.getKontoNr();
+        if (result > 0){
+            return 1;
+        }else if (result < 0){
+            return -1; 
+        }
+        return 0;
+    }
+
+    public void bucheSoll(final double buchungsbetrag)
     {
         this.summeSollbuchungen = this.getSummeSollBuchungen() + buchungsbetrag;
     }
 
-    public void bucheHaben(double buchungsbetrag)
+    public void bucheHaben(final double buchungsbetrag)
     {
         this.summeHabenbuchungen = this.getSummeHabenBuchungen() + buchungsbetrag;
     }
