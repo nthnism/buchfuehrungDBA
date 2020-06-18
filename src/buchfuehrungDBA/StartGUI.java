@@ -2,6 +2,7 @@ package buchfuehrungDBA;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
       
 
 public class StartGUI extends javax.swing.JFrame {
@@ -37,6 +38,7 @@ public class StartGUI extends javax.swing.JFrame {
         kontenliste.add(einKonto = new Aufwandskonto(6300, "Gehälter"));
         kontenliste.add(einKonto = new Aufwandskonto(6520, "Abschr. auf Sachanl."));
 
+        Collections.sort(kontenliste);
         aktualisiereComboboxen();
     }
 
@@ -246,6 +248,9 @@ public class StartGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKontoSuchenActionPerformed
 
     private void btnAlleKontenAnzeigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlleKontenAnzeigenActionPerformed
+        Collections.sort(kontenliste);
+        //nicht zwingend notwendig, wenn die ArrayList beim Aufruf dieser Methode immer schon sortiert ist
+
         txbKontenverwaltungAusgabe.setText("");
         for (Konto einKonto : kontenliste){
             txbKontenverwaltungAusgabe.append(einKonto.ausgeben() + "\n");
@@ -254,6 +259,9 @@ public class StartGUI extends javax.swing.JFrame {
 
     private void btnKontoAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontoAnlegenActionPerformed
 
+        // NACH Instanziierung eines neuen Kontos
+        Collections.sort(kontenliste);
+        
     }//GEN-LAST:event_btnKontoAnlegenActionPerformed
 
     public Konto findeKonto(int kontoNr)
