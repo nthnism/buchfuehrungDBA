@@ -258,10 +258,48 @@ public class StartGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlleKontenAnzeigenActionPerformed
 
     private void btnKontoAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontoAnlegenActionPerformed
-
+        int kontoNr = Integer.parseInt(txtKontoNr.getText());
+        String kontoBezeichnung = txtKontoBezeichnung.getText();
+        
+        String ausgabe = "";
+        
+        if (findeKonto(kontoNr) == null) {
+            if (!kontoBezeichnung.equals("")) {
+                if (kontoNr >= 0 && kontoNr <= 2999) {
+                    Aktivkonto konto = new Aktivkonto(kontoNr, kontoBezeichnung);
+                    kontenliste.add(konto);
+                    ausgabe = konto.ausgeben();
+                    aktualisiereComboboxen();
+                } else if(kontoNr >= 3000 && kontoNr != 4999) {
+                    Passivkonto konto = new Passivkonto(kontoNr, kontoBezeichnung);
+                    kontenliste.add(konto);
+                    ausgabe = konto.ausgeben();
+                    aktualisiereComboboxen();
+                } else if(kontoNr >= 5000 && kontoNr != 5999) {
+                    Ertragskonto konto = new Ertragskonto(kontoNr, kontoBezeichnung);
+                    kontenliste.add(konto);
+                    ausgabe = konto.ausgeben();
+                    aktualisiereComboboxen();
+                } else if(kontoNr >= 6000 && kontoNr != 7999) {
+                    Aufwandskonto konto = new Aufwandskonto(kontoNr, kontoBezeichnung);
+                    kontenliste.add(konto);
+                    ausgabe = konto.ausgeben();
+                    aktualisiereComboboxen();
+                } else {
+                    ausgabe = "Es wurde kein Konto angelegt, da es kein Konto mit dieser Nummer geben kann.";
+                }
+            }
+            else {
+                ausgabe = "Bitte geben Sie eine Kontobezeichnung ein!";
+            }
+        }
+        else {
+            ausgabe = "Es wurde kein Konto angelegt, da es bereits ein Konto mit der Nummer gibt.";
+        }
+        txbKontenverwaltungAusgabe.setText(ausgabe);
+        
         // NACH Instanziierung eines neuen Kontos
         Collections.sort(kontenliste);
-        
     }//GEN-LAST:event_btnKontoAnlegenActionPerformed
 
     public Konto findeKonto(int kontoNr)
