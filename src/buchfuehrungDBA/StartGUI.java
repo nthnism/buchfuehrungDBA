@@ -3,17 +3,14 @@ package buchfuehrungDBA;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-      
 
 public class StartGUI extends javax.swing.JFrame {
-    
+
     private Konto einKonto;
     private Buchungssatz einBuchungssatz;
     private ArrayList<Konto> kontenliste;
 
-    
-    public StartGUI()
-    {
+    public StartGUI() {
         initComponents();
 
         kontenliste = new ArrayList<Konto>();
@@ -202,47 +199,71 @@ public class StartGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuchungDurchfuehrenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuchungDurchfuehrenActionPerformed
+        String kontoNrBezeichnungSoll = cboSollkonto.getSelectedItem().toString();
+        String kontoNrBezeichnungHaben = cboHabenkonto.getSelectedItem().toString();
+        int kontoNrSoll = 0;
+        int kontoNrHaben = 0;
 
+        for (int i = 0; i < kontenliste.size(); i++) {
+            if (kontoNrBezeichnungSoll.equals(kontenliste.get(i).getKontoBezeichnung())) {
+                kontoNrSoll = kontenliste.get(i).getKontoNr();
+                break;
+            }
+        }
+
+       for (int i = 0; i < kontenliste.size(); i++) {
+            if (kontoNrBezeichnungHaben.equals(kontenliste.get(i).getKontoBezeichnung())) {
+                kontoNrHaben = kontenliste.get(i).getKontoNr();
+                break;
+            }
+        }
+
+        double buchungsbetrag = Double.parseDouble(txtBuchungsbetrag.getText());
+
+        Konto sollKonto = findeKonto(kontoNrSoll);
+        Konto habenKonto = findeKonto(kontoNrHaben);
+
+        txbBuchungenHauptbuch.setText(sollKonto.ausgeben());
+        txbBuchungenHauptbuch.append("\n");
+        txbBuchungenHauptbuch.append(habenKonto.ausgeben());
+
+        Buchungssatz einBuchungssatz = new Buchungssatz(sollKonto, habenKonto, buchungsbetrag);
+
+        txbBuchungenMeldung.setText(einBuchungssatz.buchungDurchfuehren());
+        txbBuchungenGrundbuch.setText(einBuchungssatz.ausgeben());
+
+        txbBuchungenHauptbuch.append("\n");
+        txbBuchungenHauptbuch.append(sollKonto.ausgeben());
+        txbBuchungenHauptbuch.append("\n");
+        txbBuchungenHauptbuch.append(habenKonto.ausgeben());
     }//GEN-LAST:event_btnBuchungDurchfuehrenActionPerformed
 
     private void btnKontoLoeschenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontoLoeschenActionPerformed
-        try
-        {
+        try {
             int kontoNr = Integer.parseInt(txtKontoNr.getText());
             Konto einKonto = findeKonto(kontoNr);
-            if (einKonto != null && einKonto.getSummeSollBuchungen() == 0 && einKonto.getSummeHabenBuchungen() == 0)
-            {
+            if (einKonto != null && einKonto.getSummeSollBuchungen() == 0 && einKonto.getSummeHabenBuchungen() == 0) {
                 kontenliste.remove(einKonto);
                 txbKontenverwaltungAusgabe.setText("Das Konto mit der Kontonummer " + kontoNr + " wurde entfernt.");
                 aktualisiereComboboxen();
-            }
-            else
-            {
+            } else {
                 txbKontenverwaltungAusgabe.setText("Es gab einen Fehler beim Löschen des Kontos mit der Kontonummer " + kontoNr + ".");
             }
-        }
-        catch (NumberFormatException ex)
-        {
+        } catch (NumberFormatException ex) {
             txbKontenverwaltungAusgabe.setText("Es gab einen Fehler bei der Eingabe der Kontonummer.");
         }
     }//GEN-LAST:event_btnKontoLoeschenActionPerformed
 
     private void btnKontoSuchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontoSuchenActionPerformed
-        try
-        {
+        try {
             int kontoNr = Integer.parseInt(txtKontoNr.getText());
             Konto einKonto = findeKonto(kontoNr);
-            if (einKonto == null)
-            {
+            if (einKonto == null) {
                 txbKontenverwaltungAusgabe.setText("Das Konto mit der Kontonummer: " + kontoNr + " konnte nicht gefunden werden.");
-            }
-            else
-            {
+            } else {
                 txbKontenverwaltungAusgabe.setText(einKonto.ausgeben());
             }
-        }
-        catch (NumberFormatException ex)
-        {
+        } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_btnKontoSuchenActionPerformed
@@ -252,7 +273,7 @@ public class StartGUI extends javax.swing.JFrame {
         //nicht zwingend notwendig, wenn die ArrayList beim Aufruf dieser Methode immer schon sortiert ist
 
         txbKontenverwaltungAusgabe.setText("");
-        for (Konto einKonto : kontenliste){
+        for (Konto einKonto : kontenliste) {
             txbKontenverwaltungAusgabe.append(einKonto.ausgeben() + "\n");
         }
     }//GEN-LAST:event_btnAlleKontenAnzeigenActionPerformed
@@ -260,9 +281,9 @@ public class StartGUI extends javax.swing.JFrame {
     private void btnKontoAnlegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKontoAnlegenActionPerformed
         int kontoNr = Integer.parseInt(txtKontoNr.getText());
         String kontoBezeichnung = txtKontoBezeichnung.getText();
-        
+
         String ausgabe = "";
-        
+
         if (findeKonto(kontoNr) == null) {
             if (!kontoBezeichnung.equals("")) {
                 if (kontoNr >= 0 && kontoNr <= 2999) {
@@ -270,17 +291,17 @@ public class StartGUI extends javax.swing.JFrame {
                     kontenliste.add(konto);
                     ausgabe = konto.ausgeben();
                     aktualisiereComboboxen();
-                } else if(kontoNr >= 3000 && kontoNr != 4999) {
+                } else if (kontoNr >= 3000 && kontoNr != 4999) {
                     Passivkonto konto = new Passivkonto(kontoNr, kontoBezeichnung);
                     kontenliste.add(konto);
                     ausgabe = konto.ausgeben();
                     aktualisiereComboboxen();
-                } else if(kontoNr >= 5000 && kontoNr != 5999) {
+                } else if (kontoNr >= 5000 && kontoNr != 5999) {
                     Ertragskonto konto = new Ertragskonto(kontoNr, kontoBezeichnung);
                     kontenliste.add(konto);
                     ausgabe = konto.ausgeben();
                     aktualisiereComboboxen();
-                } else if(kontoNr >= 6000 && kontoNr != 7999) {
+                } else if (kontoNr >= 6000 && kontoNr != 7999) {
                     Aufwandskonto konto = new Aufwandskonto(kontoNr, kontoBezeichnung);
                     kontenliste.add(konto);
                     ausgabe = konto.ausgeben();
@@ -288,36 +309,31 @@ public class StartGUI extends javax.swing.JFrame {
                 } else {
                     ausgabe = "Es wurde kein Konto angelegt, da es kein Konto mit dieser Nummer geben kann.";
                 }
-            }
-            else {
+            } else {
                 ausgabe = "Bitte geben Sie eine Kontobezeichnung ein!";
             }
-        }
-        else {
+        } else {
             ausgabe = "Es wurde kein Konto angelegt, da es bereits ein Konto mit der Nummer gibt.";
         }
         txbKontenverwaltungAusgabe.setText(ausgabe);
-        
+
         // NACH Instanziierung eines neuen Kontos
         Collections.sort(kontenliste);
     }//GEN-LAST:event_btnKontoAnlegenActionPerformed
 
-    public Konto findeKonto(int kontoNr)
-    {
-        for (Konto einKonto : kontenliste){
-            if(kontoNr == einKonto.getKontoNr()){
-                 return einKonto;
+    public Konto findeKonto(int kontoNr) {
+        for (Konto einKonto : kontenliste) {
+            if (kontoNr == einKonto.getKontoNr()) {
+                return einKonto;
             }
         }
         return null;
     }
 
-    public void aktualisiereComboboxen()
-    {
+    public void aktualisiereComboboxen() {
         cboSollkonto.removeAllItems();
         cboHabenkonto.removeAllItems();
-        for (Konto einKonto : kontenliste)
-        {
+        for (Konto einKonto : kontenliste) {
             cboSollkonto.addItem(einKonto.kontoBezeichnung);
             cboHabenkonto.addItem(einKonto.kontoBezeichnung);
         }
