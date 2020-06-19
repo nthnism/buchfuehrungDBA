@@ -14,6 +14,36 @@ public class Buchungssatz {
         this.buchungsbetrag = buchungsbetrag;
     }
 
+    public String buchungDurchfuehren()
+    {
+        switch(this.sollKonto.getClass().getName()) {
+            case "Passivkonto":
+                if ((sollKonto.getSummeHabenBuchungen() - sollKonto.getSummeSollBuchungen()) < this.buchungsbetrag) {
+                    return "Die Buchung konnte nicht durchgeführt werden, weil nicht genug Geld auf dem Konto ist.";
+                }
+                break;
+            case "Ertragskonto":
+                return "Die Buchung konnte nicht durchgeführt werden, weil ...";
+            case "Aktivkonto":
+                if ((habenKonto.getSummeSollBuchungen() - habenKonto.getSummeHabenBuchungen()) < this.buchungsbetrag) {
+                    return "Die Buchung konnte nicht durchgeführt werden, weil nicht genug Geld auf dem Konto ist.";
+                }
+                break;
+            case "Aufwandskonto":
+                return "Die Buchung konnte nicht durchgeführt werden, weil ...";
+        }
+
+        return this.bucheSollUndHaben(buchungsbetrag);
+    }
+
+    public String bucheSollUndHaben(double buchungsbetrag)
+    {
+        this.habenKonto.bucheHaben(buchungsbetrag);
+        this.sollKonto.bucheSoll(buchungsbetrag);
+        
+        return "Die Buchung wurde ordnungsgemäß durchgeführt.";
+    }
+
     public String ausgeben()
     {
         String ausgabe = new String();
