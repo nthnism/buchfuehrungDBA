@@ -40,12 +40,15 @@ public class Buchungssatz {
             break;
         }
 
-        return this.bucheSollUndHaben();
+        return this.bucheSollUndHaben(buchungsbetrag);
     }
 
-    public String bucheSollUndHaben()
+    public String bucheSollUndHaben(double buchungsbetrag)
     {
-        return null;
+        this.habenKonto.bucheHaben(buchungsbetrag);
+        this.sollKonto.bucheSoll(buchungsbetrag);
+        
+        return "Die Buchung wurde ordnungsgemäß durchgeführt.";
     }
 
     public String ausgeben()
