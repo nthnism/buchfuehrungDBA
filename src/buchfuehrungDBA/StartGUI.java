@@ -81,6 +81,9 @@ public class StartGUI extends javax.swing.JFrame {
         txbBuchungenHauptbuch = new javax.swing.JTextArea();
         lblKontoHaben = new javax.swing.JLabel();
         lblBuchungsbetrag = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("remoTec - Finanzbuchhaltung");
@@ -106,12 +109,15 @@ public class StartGUI extends javax.swing.JFrame {
         getContentPane().add(txtKontoBezeichnung, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 180, 30));
 
         btnAlleKontenAnzeigen.setText("Konten anzeigen");
+        btnAlleKontenAnzeigen.setMaximumSize(new java.awt.Dimension(120, 23));
+        btnAlleKontenAnzeigen.setMinimumSize(new java.awt.Dimension(120, 23));
+        btnAlleKontenAnzeigen.setPreferredSize(new java.awt.Dimension(120, 23));
         btnAlleKontenAnzeigen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlleKontenAnzeigenActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAlleKontenAnzeigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 650, 30));
+        getContentPane().add(btnAlleKontenAnzeigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 160, 30));
 
         btnKontoAnlegen.setText("Konto anlegen");
         btnKontoAnlegen.addActionListener(new java.awt.event.ActionListener() {
@@ -197,6 +203,19 @@ public class StartGUI extends javax.swing.JFrame {
 
         lblBuchungsbetrag.setText("Buchungsbetrag");
         getContentPane().add(lblBuchungsbetrag, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 130, -1, -1));
+
+        jButton1.setLabel("GuV anzeigen");
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, 150, 30));
+        jButton1.getAccessibleContext().setAccessibleName("btnGuV");
+        jButton1.getAccessibleContext().setAccessibleDescription("");
+
+        jButton2.setLabel("SBK anzeigen");
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 150, 30));
+        jButton2.getAccessibleContext().setAccessibleName("btnSBK");
+
+        jButton3.setLabel("Bilanzkennzahlen anzeigen");
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 160, 30));
+        jButton3.getAccessibleContext().setAccessibleName("btnBilanz");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -372,6 +391,9 @@ public class StartGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnKontoSuchen;
     private javax.swing.JComboBox cboHabenkonto;
     private javax.swing.JComboBox cboSollkonto;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
